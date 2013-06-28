@@ -11,6 +11,9 @@ set(CMAKE_C_FLAGS "-std=gnu99")
 #find_package(ach)
 link_libraries(-lm -lrt -lach -lhuboparams)
 
+file(SHA1 "${PROJECT_SOURCE_DIR}/include/manip.h" MANIP_HEADER_HASH)
+configure_file("include/manip.h" "include/manip-hashed.h")
+
 file(GLOB daemonizer_source "src/daemonizer.c" "include/daemonizer.h")
 
 file(GLOB control_daemon_source "src/control-daemon.c" "include/control-daemon.h")
@@ -23,7 +26,7 @@ file(GLOB balance_daemon_source "src/balance-daemon.cpp"
                                 "include/hubo-zmp.h" )
 
 file(GLOB manip_daemon_source "src/manip-daemon.cpp"
-                              "include/manip-daemon.h" )
+                              "include/manip-hashed.h" )
 
 add_library(libdaemonizer SHARED ${daemonizer_source})
 link_libraries(libdaemonizer)

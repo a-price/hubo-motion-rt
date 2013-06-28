@@ -52,6 +52,8 @@
 
 #define NUM_ARMS 2
 
+const char MANIP_HEADER_HASH[40] = "${MANIP_HEADER_HASH}";
+
 typedef enum {
     
     MC_READY = 0,
@@ -156,7 +158,11 @@ typedef struct hubo_manip_state {
 
 
 typedef struct hubo_manip_cmd {
-    
+    hubo_manip_cmd()
+    {
+        memcpy( localHeaderSHA1, MANIP_HEADER_HASH, sizeof(MANIP_HEADER_HASH) );
+    }
+
     uint32_t goalID[NUM_ARMS];
     manip_mode_t m_mode[NUM_ARMS];        ///< Defines what type of manipulation to execute: trajectory or pose
     manip_ctrl_t m_ctrl[NUM_ARMS];        ///< Defines the type of compliance to use
@@ -169,6 +175,9 @@ typedef struct hubo_manip_cmd {
 
     double stopNorm;
     double convergeNorm;
+
+private:
+    char localHeaderSHA1[40];
     
 } hubo_manip_cmd_t;
 
